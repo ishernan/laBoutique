@@ -11,54 +11,52 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 
-class RegisterType extends AbstractType
+class ChangePasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('email', EmailType::class, [
+                'disabled' => true,
+                'label'=> "Mon adresse mail"
+            ])
             ->add('firstname', TextType::class, [
-                'label' =>'Votre prénom',
-                'constraints' => new Length( 0, 2, 30),
-                'attr'=>[
-                    'placeholder' => 'Merci de saisir votre prénom'
-                ]
+                'disabled' => true,
+                'label' => 'Mon prénom'
             ])
             ->add('lastname', TextType::class, [
-                'label' =>'Votre nom',
-                'constraints' => new Length( 0, 2, 30),
-                'attr' =>[
-                    'placeholder' => 'Merci de saisir votre nom'
+                'disabled' => true,
+                'label' => 'Mon nom'
+            ])
+            ->add('old_password', PasswordType::class, [
+                'label' => 'Mon mot de passe actuel',
+                'mapped' => false,
+                'attr' => [
+                    'placeholder' => 'Vueillez saisir votre mot de passe actuel'
                 ]
             ])
-            ->add('email', EmailType::class, [
-                'label' => 'Votre email',
-                'constraints' => new Length( 0, 2, 30),
-                'attr'=>[
-                    'placeholder' => 'Merci de saisir votre adresse email'
-                ]
-            ])
-            ->add('password', RepeatedType::class, [
-                'type'=>PasswordType::class,
+            ->add('new_password', RepeatedType::class, [
+                'type'=> PasswordType::class,
+                'mapped' => false,
                 'invalid_message' => 'Le mot de passe doit etre identique',
-                'label' => 'Votre mot de passe',
+                'label' => 'Mon nouveau mot de passe',
                 'required' => true,
                 'first_options' => [
-                    'label'=>'Mot de passe',
+                    'label'=>'Mon nouveau mot de passe',
                     'attr'=> [
                         'placeholder' => 'Merci de saisir votre mot de passe.'
                     ]
                 ],
                 'second_options' => [
-                    'label' =>'Confirmez votre mot de passe',
+                    'label' =>'Confirmez votre nouveau mot de passe',
                     'attr' =>[
-                        'placeholder' =>'Merci de confirmer un mot de passe'
+                        'placeholder' =>'Merci de confirmer votre nouveau mot de passe'
                     ]
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire"
+                'label' => "Mettre à jour"
             ])
         ;
     }
